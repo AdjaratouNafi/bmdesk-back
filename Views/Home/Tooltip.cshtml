@@ -1,0 +1,74 @@
+﻿@model BMSDesk_CLI_API.Model.Tooltip_Model
+@using BMSDesk_CLI_API.Web.Helpers;
+@if (Model.ModuleType == "ticket")
+{
+    <div class="desctooltip">
+        <div class="card-body p-0">
+            <div class="form-box row">
+                <div class="col-12 form-group row mb-0">
+                    <label class="col-sm-3 col-form-label">@HtmlHelpers.GlobalResources("lblTicketID", Model.lang) : </label>
+                    <div class="col-sm-9 col-form-label font-weight-bold">
+                        @Model.ID
+                    </div>
+                </div>
+                <div class="col-12 form-group row mb-0">
+                    <label class="col-sm-3 col-form-label">@HtmlHelpers.GlobalResources("lblCategory", Model.lang) : </label>
+                    <div class="col-sm-9 col-form-label font-weight-bold">
+                        @Model.CategoryName
+                    </div>
+                </div>
+                <div class="col-12 form-group row mb-0">
+                    <label class="col-sm-3 col-form-label">@HtmlHelpers.GlobalResources("lblStatus", Model.lang) : </label>
+                    <div class="col-sm-9 col-form-label font-weight-bold">
+                        @Model.StatusName
+                    </div>
+                </div>
+                <div class="col-12 form-group row mb-0">
+                    <label class="col-sm-3 col-form-label">@HtmlHelpers.GlobalResources("lblSubject", Model.lang) : </label>
+                    <div class="col-sm-9 col-form-label font-weight-bold">
+                        @Model.Subject
+                    </div>
+                </div>
+                <div class="col-12 form-group row mb-0">
+                    <label class="col-sm-3 col-form-label">@HtmlHelpers.GlobalResources("lblDescription", Model.lang) : </label>
+                    <div class="col-sm-9 col-form-label overflow_chart">
+                        @Html.Raw(Model.Description)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else if (Model.ModuleType == "solution")
+{
+    <div class="desctooltip">
+        <div class="card-body p-0">
+            <div class="form-box row">
+                <div class="col-12 form-group row mb-0">
+                    <label class="col-sm-3 col-form-label">@HtmlHelpers.GlobalResources("lblSolutionID", Model.lang) : </label>
+                    <div class="col-sm-9 col-form-label font-weight-bold">
+                        @Model.ID
+                    </div>
+                </div>
+                <div class="col-12 form-group row mb-0">
+                    <label class="col-sm-3 col-form-label">@HtmlHelpers.GlobalResources("lblCategory", Model.lang) : </label>
+                    <div class="col-sm-9 col-form-label font-weight-bold">
+                        @Model.CategoryName
+                    </div>
+                </div>
+                <div class="col-12 form-group row mb-0">
+                    <label class="col-sm-3 col-form-label">@HtmlHelpers.GlobalResources("lblSubject", Model.lang) : </label>
+                    <div class="col-sm-9 col-form-label font-weight-bold">
+                        @Model.Subject
+                    </div>
+                </div>
+                <div class="col-12 form-group row mb-0">
+                    <label class="col-sm-3 col-form-label">@HtmlHelpers.GlobalResources("lblSolution", Model.lang) : </label>
+                    <div class="col-sm-9 col-form-label overflow_chart">
+                        @Html.Raw(Model.Description)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,370 @@
+﻿@model BMSDesk_CLI_API.Model.Print_Model
+@using BMSDesk_CLI_API.Web.Helpers;
+@{
+    Layout = null;
+
+    string[] lstImgType = { "bmp", "gif", "ico", "jpeg", "jpg", "png", "ps", "psd", "svg", "tif", "tiff" };
+    string[] lstVideoType = { "3gp", "avi", "flv", "m4v", "mkv", "mov", "mp4", "mpg", "mpeg", "wmv", "vob" };
+
+    var url = string.IsNullOrEmpty(Model.Documents_URL) ? "" : Model.Documents_URL;//ComUti.GetAppSetting("Site_URL");
+}
+
+<html>
+<head>
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <style type="text/css">
+        body { font-family: "Poppins", sans-serif; font-size: 13px; font-weight: 400; line-height: 1.5; color: #212529; text-align: left; background-color: #fff; width: 21cm; margin: 0 auto; margin-top: 5px; }
+        body.rtl { direction: rtl; text-align: right; }
+
+        @@media print {
+            body { width: 100%; }
+            .doNotPrint { display: none !important; }
+
+            body, .page { margin: 0; box-shadow: 0; }
+        }
+
+        @@page { size: auto; /* auto is the initial value */ margin: 0 0 0 0; /* this affects the margin in the printer settings */ }
+
+        .btn { font-size: 0.875rem; line-height: 1; display: inline-block; font-weight: 400; text-align: center; white-space: nowrap; vertical-align: middle; user-select: none; border: 1px solid transparent; padding: 0.56rem 1.375rem; font-size: 13px; line-height: 1; border-radius: 0px; transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; cursor: pointer; outline: none; }
+
+        .btn:hover { opacity: 0.8; }
+
+        .success-btn { background: #58d8a3; border-color: #58d8a3; }
+
+        .danger-btn { background: #dee2e6; border-color: #dee2e6; }
+
+        .text-center { text-align: center; }
+
+        .text-right { text-align: right; }
+
+        .float-right { float: right; }
+
+        table { border-collapse: collapse; border: 1px solid #f3f3f3; }
+
+        table tr td { border-bottom: 1px solid #f3f3f3; padding: 10px; font-size: 14px; vertical-align: top; }
+
+        .title { background: #fbfbfb; font-weight: 500; }
+
+        .pd-0 { padding: 0px !important; }
+
+        .pd-tb-15 { padding: 15px; }
+
+        .wdt-100 { width: 100%; }
+
+        .wdt-20 { width: 20%; }
+
+        .wdt-1 { width: 1%; }
+
+        .wdt-30 { width: 30%; }
+
+        .bold { font-weight: 600; }
+
+        .table-sub { width: 100%; margin-bottom: 20px; }
+
+        .ml-5 { margin-left: 5px; }
+
+        last-tr { page-break-after: always; }
+
+        a { color: #007bff; text-decoration: none; }
+
+        a:hover { color: #0056b3; text-decoration: underline; }
+
+        i.fa, span.fa { margin-right: 5px; }
+
+        .font-18 { font-size: 18px !important; }
+
+        .font-13 { font-size: 13px !important; }
+
+        .mb-1 { margin-bottom: 10px !important; }
+
+        .font-14 { font-size: 14px !important; }
+
+        mark, .mark { padding: 0.2em 0; background-color: #fcf8e3; }
+
+        .pt-15 { padding-top: 15px !important; }
+
+        .pb-15 { padding-bottom: 15px !important; }
+
+        .table-bordered th, .table-bordered td { border: 1px solid #f3f3f3; }
+
+        .table-striped tbody tr:nth-of-type(odd) { background-color: #F6F8FA; }
+    </style>
+    <script type='text/javascript'>
+        function Print() {
+            window.print();
+            window.onfocus = function () { window.close(); }
+            window.self.close()
+            return false;
+        }
+        function Close() {
+            window.self.close()
+        }
+
+    </script>
+</head>
+<body class="@((Model.lang == "AE") ? "rtl" : "")">
+    <table style="width:100%;">
+        <tr style="background:#f3f3f3;">
+            <td colspan="6" class="text-center">
+                @{ string logourl = url + "/Documents/Attachments/logo.png";}
+                <img src="@logourl" style="width:200px;height:24px;" />
+                <button type="button" class="btn danger-btn doNotPrint float-right ml-5" onclick="Close()">@HtmlHelpers.GlobalResources("btnClose", Model.lang)</button>
+                <button type="button" class="btn success-btn doNotPrint float-right" onclick="Print()">@HtmlHelpers.GlobalResources("tlpPrint", Model.lang)</button>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="6">
+                @if (Model.TicketList.Count > 0)
+                {
+                    foreach (var item in Model.TicketList)
+                    {
+                        <table class="table-sub">
+                            <tr>
+                                <td colspan="6" class="title pt-15 pb-15">
+                                    <div class="font-18 mb-1">#@item.DisplayTicketID - @item.Subject </div>
+                                    <div class="font-13 mb-1">
+                                        @HtmlHelpers.GlobalResources("lblBy", Model.lang) <a class="link ml-1 mr-1">@item.CreatedUserName</a>
+                                        @HtmlHelpers.GlobalResources("lblCreatedOn", Model.lang)  <span class="bold">@item.CreatedDate.ToString("dd MMM yyyy")</span>
+                                    </div>
+                                    <mark class="font-14">
+                                        @HtmlHelpers.GlobalResources("lblStatus", Model.lang) : <span class="bold">@item.StatusName</span>
+                                    </mark>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="wdt-20">@HtmlHelpers.GlobalResources("lblRequester", Model.lang)</td>
+                                <td class="wdt-1">:</td>
+                                <td class="wdt-30 bold">@item.RequestedName</td>
+                                <td class="wdt-20">@HtmlHelpers.GlobalResources("lblTechnician", Model.lang)</td>
+                                <td class="wdt-1">:</td>
+                                <td class="wdt-30 bold">@item.AssignedName </td>
+                            </tr>
+                            <tr>
+                                <td class="wdt-20">@HtmlHelpers.GlobalResources("lblClosedDate", Model.lang)</td>
+                                <td class="wdt-1">:</td>
+                                <td class="wdt-30 bold">
+                                    @{var closedt = item.ClosedDate == null ? "" : Convert.ToDateTime(item.ClosedDate).ToString("dd MMM yyyy");}
+                                    @closedt
+                                </td>
+                                <td class="wdt-20">@HtmlHelpers.GlobalResources("lblDueDate", Model.lang)</td>
+                                <td class="wdt-1">:</td>
+                                <td class="wdt-30 bold">
+                                    @{var duedt = item.DueDate == null ? "" : Convert.ToDateTime(item.DueDate).ToString("dd MMM yyyy");}
+                                    @duedt
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="wdt-20">@HtmlHelpers.GlobalResources("lblPriority", Model.lang)</td>
+                                <td class="wdt-1">:</td>
+                                <td class="wdt-30 bold">@item.PriorityName</td>
+                                <td class="wdt-20">@HtmlHelpers.GlobalResources("lblLevel", Model.lang)</td>
+                                <td class="wdt-1">:</td>
+                                <td class="wdt-30 bold">@item.LevelName </td>
+                            </tr>
+                            <tr>
+                                <td class="wdt-20">@HtmlHelpers.GlobalResources("lblCategory", Model.lang)</td>
+                                <td class="wdt-1">:</td>
+                                <td class="wdt-30 bold">@item.CategoryName</td>
+                                <td class="wdt-20">@HtmlHelpers.GlobalResources("lblSubCategory", Model.lang)</td>
+                                <td class="wdt-1">:</td>
+                                <td class="wdt-30 bold">@item.SubCategoryName </td>
+                            </tr>
+                            <tr>
+                                <td class="wdt-20">@HtmlHelpers.GlobalResources("lblItem", Model.lang)</td>
+                                <td class="wdt-1">:</td>
+                                <td class="wdt-30 bold">@item.ItemName</td>
+                                <td class="wdt-20">@HtmlHelpers.GlobalResources("lblUrgency", Model.lang)</td>
+                                <td class="wdt-1">:</td>
+                                <td class="wdt-30 bold">@item.UrgencyName </td>
+                            </tr>
+                            <tr>
+                                <td class="wdt-20">@HtmlHelpers.GlobalResources("lblImpact", Model.lang)</td>
+                                <td class="wdt-1">:</td>
+                                <td class="wdt-30 bold">@item.ImpactName</td>
+                                <td class="wdt-20">@HtmlHelpers.GlobalResources("lblDepartment", Model.lang)</td>
+                                <td class="wdt-1">:</td>
+                                <td class="wdt-30 bold">@item.DepartmentName </td>
+                            </tr>
+                            <tr>
+                                <td class="wdt-20">@HtmlHelpers.GlobalResources("lblLocation", Model.lang)</td>
+                                <td class="wdt-1">:</td>
+                                <td class="wdt-30 bold">@item.LocationName</td>
+                                <td class="wdt-20">@HtmlHelpers.GlobalResources("lblIPAddress", Model.lang)</td>
+                                <td class="wdt-1">:</td>
+                                <td class="wdt-30 bold">@item.IPAddress </td>
+                            </tr>
+                            <tr>
+                                <td class="wdt-20">@HtmlHelpers.GlobalResources("lblSubject", Model.lang)</td>
+                                <td class="wdt-1">:</td>
+                                <td colspan="4" class="wdt-30 bold">@item.Subject </td>
+                            </tr>
+                            <tr>
+                                <td class="wdt-20">@HtmlHelpers.GlobalResources("lblDescription", Model.lang)</td>
+                                <td class="wdt-1">:</td>
+                                <td colspan="4" class="wdt-30">@Html.Raw(item.Description) </td>
+                            </tr>
+                            <tr>
+                                <td class="wdt-20">@HtmlHelpers.GlobalResources("lblSolution", Model.lang)</td>
+                                <td class="wdt-1">:</td>
+                                <td colspan="4" class="wdt-30">@Html.Raw(item.SolutionDescription) </td>
+                            </tr>
+
+                            @{ var lstAttachments = Model.TicketAttachment.Where(d => d.TicketID == item.TicketID);}
+                            @if (lstAttachments.Count() > 0)
+                            {
+                                <tr>
+                                    <td class="wdt-20 bold">@HtmlHelpers.GlobalResources("lblAttachments", Model.lang)</td>
+                                    <td class="wdt-1">:</td>
+                                    <td colspan="4">
+                                        <table class="table table-bordered table-striped wdt-100">
+                                            @foreach (var file in lstAttachments)
+                                            {
+                                                <tr>
+                                                    <td colspan="6" class="">
+                                                        @{string type = file.Extension.ToLower().Replace(".", "");}
+
+                                                        @if (lstImgType.Contains(type))
+                                                        {<i class="fa fa-file-image-o mr-2"></i>}
+                                                        else if (type == "pdf")
+                                                        {<i class="fa fa-file-pdf-o mr-2"></i>}
+                                                        else if (type == "xls" || type == "xlsx" || type == "csv")
+                                                        {<i class="fa fa-file-excel-o mr-2"></i>}
+                                                        else if (type == "doc" || type == "docx")
+                                                        {<i class="fa fa-file-word-o mr-2"></i>}
+                                                        else if (type == "txt" || type == "tex" || type == "rtf")
+                                                        {<i class="fa fa-file-text-o mr-2"></i>}
+                                                        else if (type == "mp3" || type == "ogg" || type == "mpa" || type == "wav")
+                                                        {<i class="fa fa-file-audio-o mr-2"></i>}
+                                                        else if (type == "7z" || type == "rar" || type == "zip")
+                                                        {<i class="fa fa-file-zip-o mr-2"></i>}
+                                                        else if (type == "ppt" || type == "pptx" || type == "pps")
+                                                        {<i class="fa fa-file-powerpoint-o mr-2"></i>}
+                                                        else if (type == "htm" || type == "html" || type == "css")
+                                                        {<i class="fa fa-file-code-o mr-2"></i>}
+                                                        else if (lstVideoType.Contains(type))
+                                                        {<i class="fa fa-file-video-o mr-2"></i>}
+                                                        else
+                                                        {<i class="fa fa-file-file-o mr-2"></i>}
+
+                                                        @{ string link = url + "/Documents/Attachments/Ticket/" + file.FileName;}
+                                                        <a target="_blank" href="@link">@file.DisplayName</a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    }
+                }
+
+                @if (Model.SolutionList.Count > 0)
+                {
+                    foreach (var item in Model.SolutionList)
+                    {
+                        <table class="table-sub">
+                            <tr class="title bold">
+                                <td colspan="3" class="pd-tb-15">@item.DisplaySolutionID</td>
+                                <td colspan="3" class="text-right pd-tb-15">
+                                    @{var cdt = DateTime.Now.ToString("dd MMM yyyy");}
+                                    @cdt
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="wdt-20">@HtmlHelpers.GlobalResources("lblCategory", Model.lang)</td>
+                                <td class="wdt-1">:</td>
+                                <td class="wdt-30 bold">@item.CategoryName</td>
+                                <td class="wdt-20">@HtmlHelpers.GlobalResources("lblSubCategory", Model.lang)</td>
+                                <td class="wdt-1">:</td>
+                                <td class="wdt-30 bold">@item.SubCategoryName </td>
+                            </tr>
+                            <tr>
+                                <td class="wdt-20">@HtmlHelpers.GlobalResources("lblItem", Model.lang)</td>
+                                <td class="wdt-1">:</td>
+                                <td class="wdt-30 bold">@item.ItemName</td>
+                                <td class="wdt-20">@HtmlHelpers.GlobalResources("lblCreatedDate", Model.lang)</td>
+                                <td class="wdt-1">:</td>
+                                <td class="wdt-30 bold">@item.CreatedDate.ToString("dd MMM yyyy")</td>
+                            </tr>
+                            <tr>
+                                <td class="wdt-20">@HtmlHelpers.GlobalResources("lblKeywords", Model.lang)</td>
+                                <td class="wdt-1">:</td>
+                                <td colspan="4" class="wdt-30 bold">@item.MetaKeywords </td>
+                            </tr>
+                            <tr>
+                                <td class="wdt-20">@HtmlHelpers.GlobalResources("lblComments", Model.lang)</td>
+                                <td class="wdt-1">:</td>
+                                <td colspan="4" class="wdt-30 bold">@item.Comments </td>
+                            </tr>
+                            <tr>
+                                <td class="wdt-20">@HtmlHelpers.GlobalResources("lblSubject", Model.lang)</td>
+                                <td class="wdt-1">:</td>
+                                <td colspan="4" class="wdt-30 bold">@item.Subject </td>
+                            </tr>
+                            <tr>
+                                <td class="wdt-20">@HtmlHelpers.GlobalResources("lblSolution", Model.lang)</td>
+                                <td class="wdt-1">:</td>
+                                <td colspan="4" class="wdt-30">@Html.Raw(item.Description) </td>
+                            </tr>
+
+                            @{ var lstAttachments = Model.SolutionAttachment.Where(d => d.SolutionID == item.SolutionID);}
+                            @if (lstAttachments.Count() > 0)
+                            {
+                                <tr>
+                                    <td class="wdt-20">@HtmlHelpers.GlobalResources("lblAttachments", Model.lang)</td>
+                                    <td class="wdt-1">:</td>
+                                    <td colspan="4">
+                                        <table class="table table-bordered table-striped wdt-100">
+                                            @foreach (var file in lstAttachments)
+                                            {
+                                                <tr>
+                                                    <td colspan="6" class="">
+                                                        @{string type = file.Extension.ToLower().Replace(".", "");}
+
+                                                        @if (lstImgType.Contains(type))
+                                                        {<i class="fa fa-file-image-o mr-2"></i>}
+                                                        else if (type == "pdf")
+                                                        {<i class="fa fa-file-pdf-o mr-2"></i>}
+                                                        else if (type == "xls" || type == "xlsx" || type == "csv")
+                                                        {<i class="fa fa-file-excel-o mr-2"></i>}
+                                                        else if (type == "doc" || type == "docx")
+                                                        {<i class="fa fa-file-word-o mr-2"></i>}
+                                                        else if (type == "txt" || type == "tex" || type == "rtf")
+                                                        {<i class="fa fa-file-text-o mr-2"></i>}
+                                                        else if (type == "mp3" || type == "ogg" || type == "mpa" || type == "wav")
+                                                        {<i class="fa fa-file-audio-o mr-2"></i>}
+                                                        else if (type == "7z" || type == "rar" || type == "zip")
+                                                        {<i class="fa fa-file-zip-o mr-2"></i>}
+                                                        else if (type == "ppt" || type == "pptx" || type == "pps")
+                                                        {<i class="fa fa-file-powerpoint-o mr-2"></i>}
+                                                        else if (type == "htm" || type == "html" || type == "css")
+                                                        {<i class="fa fa-file-code-o mr-2"></i>}
+                                                        else if (lstVideoType.Contains(type))
+                                                        {<i class="fa fa-file-video-o mr-2"></i>}
+                                                        else
+                                                        {<i class="fa fa-file-file-o mr-2"></i>}
+
+                                                        @{ string link = url + "/Documents/Attachments/Solution/" + file.FileName;}
+                                                        <a target="_blank" href="@link">@file.DisplayName</a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    }
+                }
+
+            </td>
+        </tr>
+    </table>
+
+
+
+</body>
+
+</html>
+
