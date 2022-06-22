@@ -75,7 +75,7 @@ namespace BMSDesk_CLI_API.Controllers
             }
             catch (Exception ex)
             {
-                return Ok(ComUti.Get_ApiResponse("", "Error Occures.", false));
+                return Ok(ComUti.Get_ApiResponse("", "Error Occurs.", false));
             }
         }
 

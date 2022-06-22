@@ -1,0 +1,1 @@
+j2 /server/appsettings.json.j2 > /server/appsettings.json && dotnet run -c Production

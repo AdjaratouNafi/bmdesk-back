@@ -1,0 +1,103 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/mo/github.com/nafi/bmdesk-back/BMSDesk_CLI_API.csproj": {}
+  },
+  "projects": {
+    "/home/mo/github.com/nafi/bmdesk-back/BMSDesk_CLI_API.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/mo/github.com/nafi/bmdesk-back/BMSDesk_CLI_API.csproj",
+        "projectName": "BMSDesk_CLI_API",
+        "projectPath": "/home/mo/github.com/nafi/bmdesk-back/BMSDesk_CLI_API.csproj",
+        "packagesPath": "/home/mo/.nuget/packages/",
+        "outputPath": "/home/mo/github.com/nafi/bmdesk-back/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/mo/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "ClosedXML": {
+              "target": "Package",
+              "version": "[0.94.2, )"
+            },
+            "ExcelDataReader": {
+              "target": "Package",
+              "version": "[3.6.0, )"
+            },
+            "ExcelDataReader.DataSet": {
+              "target": "Package",
+              "version": "[3.6.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "Microsoft.AspNetCore.SignalR": {
+              "target": "Package",
+              "version": "[1.0.1, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[2.1.10, )"
+            },
+            "Select.HtmlToPdf.NetCore": {
+              "target": "Package",
+              "version": "[19.2.0, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.2, )"
+            },
+            "System.Runtime.Caching": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib64/dotnet/sdk/3.1.420/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
