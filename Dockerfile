@@ -2,14 +2,13 @@ FROM ubi8/ubi
 
 WORKDIR /server
 
-RUN dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo \
- && yum update -y \
+RUN yum update -y \
  && yum install dotnet-3.1.108-2.el8_2.x86_64 python36 -y \
  && pip3 install j2cli
 
 COPY . /server
 
-RUN chmod +x /server/entrypoint.sh && dotnet build
+RUN dotnet build && chmod +x /server/entrypoint.sh
 
 CMD /server/entrypoint.sh
 

@@ -66,7 +66,7 @@ namespace BMSDesk_CLI_API
 					.AllowAnyMethod()
 					.AllowAnyHeader()
 					.AllowAnyOrigin()
-					.WithOrigins("http://localhost:4200", "https://bmsdesk.com")
+					.WithOrigins("http://localhost:4200", "https://bmdesk-front-git-bmdesk.apps.cluster.heritage.africa")
 					.AllowCredentials()
 					);
 			});
